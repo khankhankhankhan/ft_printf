@@ -7,7 +7,6 @@ CFLAGS = -Wall -Werror -Wextra
 LIBDIR = .
 SRCDIR = src
 OBJDIR = .
-INCDIR = libft/
 LFT_PATH = ./libft/
 
 LIB = libft/libft.a
@@ -35,17 +34,12 @@ OBJ_NAME = $(SRC:.c=.o)
 INC_NAME = fillit.h
 
 LIBS = $(addprefix $(LIBDIR)/, $(LIB))
-LIBS_DIRS = $(sort $(dir $(LIBS)))
+
 
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
-OBJS = $(addprefix $(OBJ_PATH), $(patsubst %.c, %.o,$(SRC)))
-OBJS_DIRS = $(sort $(dir $(OBJS)))
-
-INCDIR += $(LIBS_DIRS)
-INCS = $(addprefix -I , $(INCDIR))
+OBJS = $(addprefix $(OBJ_PATH) $(patsubst %.c, %.o,$(SRC)))
 
 TEMPNAME = $(addprefix $(OBJDIR)/, $(NAME))
-DEVMAIN_OBJ = $(addprefix $(OBJ_PATH), $(patsubst %.c, %.o,$(DEVMAIN)))
 
 all: $(NAME)
 
