@@ -45,12 +45,11 @@ all: $(NAME)
 
 $(OBJ_PATH)%.o: %.c
 	mkdir -p $(OBJ_PATH)
-	$(CC) $(CC_FLAGS) -o $@ -c $<
+	$(CC) $(CC_FLAGS) -I ./ -o $@ -c $<
 	@echo -n .
 $(NAME): $(OBJ)
 	make -C $(LFT_PATH)
 	ar rc $(TEMPNAME) $(OBJS)
-	libtool -static -o $(NAME) $(TEMPNAME) $(LIBS)
 	ranlib $(NAME)
 
 clean:
