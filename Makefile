@@ -37,7 +37,7 @@ LIBS = $(addprefix $(LIBDIR)/, $(LIB))
 
 
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
-OBJS = $(addprefix $(OBJ_PATH) $(patsubst %.c, %.o,$(SRC)))
+OBJS = $(addprefix $(OBJ_PATH), $(patsubst %.c, %.o,$(SRC)))
 
 TEMPNAME = $(addprefix $(OBJDIR)/, $(NAME))
 
