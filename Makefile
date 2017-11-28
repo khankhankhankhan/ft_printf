@@ -8,6 +8,7 @@ LIBDIR = .
 SRCDIR = src
 OBJDIR = .
 INCDIR = libft/
+LFT_PATH = ./libft/
 
 LIB = libft/libft.a
 SRC = ft_itoa_base.c\
@@ -22,40 +23,48 @@ SRC = ft_itoa_base.c\
 	ft_print_str.c\
 	ft_print_float.c
 
-DEVNAME = ft_printf
-DEVMAIN = main.c
+
+OBJ_PATH = ./obj/
+LFT_PATH = ./libft/
+
+OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
+
+
+OBJ_NAME = $(SRC:.c=.o)
+
+INC_NAME = fillit.h
 
 LIBS = $(addprefix $(LIBDIR)/, $(LIB))
 LIBS_DIRS = $(sort $(dir $(LIBS)))
 
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
-OBJS = $(addprefix $(OBJDIR)/, $(patsubst %.c, %.o,$(SRC)))
+OBJS = $(addprefix $(OBJ_PATH)/, $(patsubst %.c, %.o,$(SRC)))
 OBJS_DIRS = $(sort $(dir $(OBJS)))
 
 INCDIR += $(LIBS_DIRS)
 INCS = $(addprefix -I , $(INCDIR))
 
 TEMPNAME = $(addprefix $(OBJDIR)/, $(NAME))
-DEVMAIN_OBJ = $(addprefix $(OBJDIR)/, $(patsubst %.c, %.o,$(DEVMAIN)))
+DEVMAIN_OBJ = $(addprefix $(OBJ_PATH) $(patsubst %.c, %.o,$(DEVMAIN)))
 
 all: $(NAME)
-$(NAME): build $(LIBS) $(OBJS)
+
+$(OBJ_PATH)%.o: %.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(CC_FLAGS) -o $@ -c $<
+	@echo -n .
+$(NAME): $(OBJ)
+	make -C $(LFT_PATH)
 	ar rc $(TEMPNAME) $(OBJS)
 	libtool -static -o $(NAME) $(TEMPNAME) $(LIBS)
 	ranlib $(NAME)
-build:
-	mkdir -p $(OBJDIR)
-	mkdir -p $(OBJS_DIRS)
+
 clean:
-	rm -f $(TEMPNAME)
-	rm -f $(LIBS)
-	rm -f $(OBJS)
+	make -C $(LFT_PATH) clean
+	@rm -rf $(OBJ_PATH)
+	@echo "$(WAC)FILLIT:\t\tRemoving OBJ path: ./obj/$(NOC)"
 fclean: clean
-	rm -f $(NAME)
+	make -C $(LFT_PATH) fclean
+	@rm -f $(NAME)
+	@echo "$(WAC)FILLIT:\t\tRemoving fillit executable$(NOC)"
 re: fclean all
-
-
-$(LIBDIR)/%.a:
-	make -s -C $(@D)
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) -c -o $@ $< $(INCS) $(CFLAGS)
