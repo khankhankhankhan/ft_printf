@@ -50,6 +50,7 @@ $(OBJ_PATH)%.o: %.c
 $(NAME): $(OBJ)
 	make -C $(LFT_PATH)
 	ar rc $(TEMPNAME) $(OBJS)
+	libtool -static -o $(NAME) $(TEMPNAME) $(LIBS)
 	ranlib $(NAME)
 
 clean:
