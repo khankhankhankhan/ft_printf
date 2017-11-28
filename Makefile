@@ -38,14 +38,14 @@ LIBS = $(addprefix $(LIBDIR)/, $(LIB))
 LIBS_DIRS = $(sort $(dir $(LIBS)))
 
 SRCS = $(addprefix $(SRCDIR)/, $(SRC))
-OBJS = $(addprefix $(OBJ_PATH)/, $(patsubst %.c, %.o,$(SRC)))
+OBJS = $(addprefix $(OBJ_PATH), $(patsubst %.c, %.o,$(SRC)))
 OBJS_DIRS = $(sort $(dir $(OBJS)))
 
 INCDIR += $(LIBS_DIRS)
 INCS = $(addprefix -I , $(INCDIR))
 
 TEMPNAME = $(addprefix $(OBJDIR)/, $(NAME))
-DEVMAIN_OBJ = $(addprefix $(OBJ_PATH) $(patsubst %.c, %.o,$(DEVMAIN)))
+DEVMAIN_OBJ = $(addprefix $(OBJ_PATH), $(patsubst %.c, %.o,$(DEVMAIN)))
 
 all: $(NAME)
 
